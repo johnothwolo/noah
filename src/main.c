@@ -303,10 +303,23 @@ main_loop(int return_on_sigret)
         uint64_t instlen, rip;
         vmm_read_vmcs(VMCS_RO_VMEXIT_INSTR_LEN, &instlen);
         vmm_read_register(HV_X86_RIP, &rip);
-        fprintf(stderr, "inst: \n");
         unsigned char inst[instlen];
         if (copy_from_user(inst, rip, instlen))
           assert(false);
+        // Intel Dev Manual: 10.4.1.1 SSE Data Movement Instructions...
+        // Change movaps to movups (0x11) because of 16-byte align.
+        if((inst[0] & 0xff) == 0x0f && (inst[1] & 0xff) == 0x29){
+          inst[1] = 0x11;
+          copy_to_user(rip, inst, instlen);
+          break;
+        }
+        // Change movdqa to movdqu (0xf3) because of 16-byte alignment.
+        else if ((inst[0] & 0xff) == 0x66 && (inst[1] & 0xff) == 0x0f){
+          inst[0] = 0xf3;
+          copy_to_user(rip, inst, instlen);
+          break;
+        }
+        fprintf(stderr, "inst: \n");
         for (uint64_t i = 0; i < instlen; ++i)
           fprintf(stderr, "%02x ", inst[i] & 0xff);
         fprintf(stderr, "\n");
