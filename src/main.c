@@ -22,6 +22,13 @@
 #include <sys/sysctl.h>
 
 #include <mach-o/dyld.h>
+#include <sys/resource.h>
+#include <err.h>
+#include <sysexits.h>
+
+// case sensitivity private api flags.
+#define IOPOL_TYPE_VFS_HFS_CASE_SENSITIVITY 1
+#define IOPOL_VFS_HFS_CASE_SENSITIVITY_FORCE_CASE_SENSITIVE 1
 
 static int
 get_cpuid_count (unsigned int leaf,
@@ -647,6 +654,12 @@ check_platform_version(void)
 int
 main(int argc, char *argv[], char **envp)
 {
+  // before we drop pivilege set iopolicy.
+  if (setiopolicy_np(IOPOL_TYPE_VFS_HFS_CASE_SENSITIVITY, IOPOL_SCOPE_PROCESS,
+                            IOPOL_VFS_HFS_CASE_SENSITIVITY_FORCE_CASE_SENSITIVE) == -1){
+    err(EX_SOFTWARE, "setiopolicy_np(IOPOL_TYPE_VFS_HFS_CASE_SENSITIVITY...)");
+  }
+
   drop_privilege();
 
   check_platform_version();
