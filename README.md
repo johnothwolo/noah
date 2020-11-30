@@ -9,6 +9,8 @@ Noah is a Darwin subsystem for Linux, or "Bash on Ubuntu on Mac OS X". Noah is i
 Noah is installed via homebrew or macports. On the first run, noah automatically downloads and installs a comprehensive linux environment in your home directory (by default, ubuntu 16.04 is installed in `~/.noah/tree`).
 macOS Sierra or higher is required.
 
+Thanks to a brilliant [article](https://worthdoingbadly.com/casesensitive-iossim/) by @zhowei, noah can run with a case senstitive system policy. However in order to achieve this, noah has to be run as root.
+
 ### Homebrew
 
 ```console
