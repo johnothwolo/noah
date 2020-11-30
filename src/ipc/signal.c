@@ -470,7 +470,7 @@ DEFINE_SYSCALL(rt_sigreturn)
 
   uint64_t rip;
   vmm_read_register(HV_X86_RIP, &rip);
-  vmm_write_register(HV_X86_RIP, rip - 2); // Because syshandler add 2 when returning to guest
+  vmm_write_register(HV_X86_RIP, rip - 2); // Because syshandler adds 2 when returning to guest
 
   uint64_t ret;
   vmm_read_register(HV_X86_RAX, &ret);

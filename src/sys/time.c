@@ -181,7 +181,7 @@ linux_to_darwin_clockid(l_clockid_t id)
 {
   switch (id) {
   case LINUX_CLOCK_REALTIME:
-  case LINUX_CLOCK_REALTIME_HR:
+  case LINUX_CLOCK_REALTIME_COARSE:
     return CLOCK_REALTIME;
   case LINUX_CLOCK_MONOTONIC:
   case LINUX_CLOCK_MONOTONIC_COARSE:

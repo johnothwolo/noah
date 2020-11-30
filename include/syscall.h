@@ -136,7 +136,7 @@
   SYSCALL(132, utime)                           \
   SYSCALL(133, mknod)                           \
   SYSCALL(134, uselib)                          \
-  SYSCALL(135, unimplemented)                   \
+  SYSCALL(135, personality)                     \
   SYSCALL(136, unimplemented)                   \
   SYSCALL(137, statfs)                          \
   SYSCALL(138, fstatfs)                         \
@@ -329,9 +329,13 @@
   SYSCALL(325, unimplemented)                   \
   SYSCALL(326, unimplemented)                   \
   SYSCALL(327, unimplemented)                   \
-  SYSCALL(328, unimplemented)
+  SYSCALL(328, unimplemented)                   \
+  SYSCALL(329, unimplemented)                   \
+  SYSCALL(330, unimplemented)                   \
+  SYSCALL(331, unimplemented)                   \
+  SYSCALL(332, statx)
 
-#define NR_SYSCALLS 329
+#define NR_SYSCALLS 333
 
 typedef uint64_t (*sc_handler_t)(uint64_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t);
 

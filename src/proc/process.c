@@ -20,6 +20,7 @@
 #include "linux/misc.h"
 #include "linux/errno.h"
 #include "linux/futex.h"
+#include "linux/capability.h"
 
 #include <sys/sysctl.h>
 
@@ -382,6 +383,12 @@ DEFINE_SYSCALL(capget, gaddr_t, header_ptr, gaddr_t, data_ptr)
   return 0;
 }
 
+DEFINE_SYSCALL(capset, gaddr_t, header_ptr, gaddr_t, data)
+{
+  printk("capset is unimplemented\n");
+  return 0;
+}
+
 struct utsname {
   char sysname[65];
   char nodename[65];
@@ -426,6 +433,8 @@ DEFINE_SYSCALL(prctl, int, option, unsigned long, arg1, unsigned long, arg2, uns
     pthread_setname_np(buf);
     return 0;
   }
+  case 8/*PR_SET_KEEPCAPS*/:
+          return 0;
   default:
     warnk("unkown prctl cmd: %d\n", option);
     return -LINUX_EINVAL;
@@ -597,4 +606,13 @@ DEFINE_SYSCALL(sched_getaffinity, l_pid_t, pid, unsigned int, len, gaddr_t, user
   if (copy_to_user(user_mask_ptr, buf, sizeof buf))
     return -LINUX_EFAULT;
   return sizeof_cpumask_t;
+}
+
+DEFINE_SYSCALL(personality, unsigned long, persona)
+{
+    uint32_t old = proc.persona;
+    if (persona != 0xffffffff){
+        proc.persona = persona;
+    }
+    return old;
 }

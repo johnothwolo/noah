@@ -332,7 +332,7 @@ darwinfs_lseek(struct file *file, l_off_t offset, int whence)
 ssize_t
 darwin_to_linux_dent(struct dirent *d_dent, void *l_dent, size_t buflen, int is64)
 {
-  unsigned reclen = roundup(is64 ? offsetof(struct l_dirent64, d_name) : offsetof(struct l_dirent, d_name) + d_dent->d_namlen + 2, 8);
+  unsigned reclen = ALIGN((((char*)&(d_dent->d_name)) - ((char*)d_dent)) + d_dent->d_namlen + 2);
   if (reclen > buflen) {
     return -1;
   }
@@ -1337,6 +1337,10 @@ DEFINE_SYSCALL(newfstatat, int, dirfd, gstr_t, path_ptr, gaddr_t, st_ptr, int, f
 DEFINE_SYSCALL(stat, gstr_t, path, gaddr_t, st)
 {
   return sys_newfstatat(LINUX_AT_FDCWD, path, st, 0);
+}
+
+DEFINE_SYSCALL(statx, l_int, dirfd, gaddr_t, pathname, l_int, flags, l_uint, mask, gaddr_t, statxbuf ){
+  return ENOSYS;
 }
 
 DEFINE_SYSCALL(lstat, gstr_t, path, gaddr_t, st)

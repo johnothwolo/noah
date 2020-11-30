@@ -7,19 +7,79 @@ struct linux_ptrace_peeksiginfo_args {
   int32_t nr;
 };
 
-#define LINUX_PTRACE_TRACEME	0
-#define LINUX_PTRACE_PEEKTEXT	1
-#define LINUX_PTRACE_PEEKDATA	2
-#define LINUX_PTRACE_PEEKUSR	3
-#define LINUX_PTRACE_POKETEXT	4
-#define LINUX_PTRACE_POKEDATA	5
-#define LINUX_PTRACE_POKEUSR	6
-#define LINUX_PTRACE_CONT	7
-#define LINUX_PTRACE_KILL	8
-#define LINUX_PTRACE_SINGLESTEP 9
-#define LINUX_PTRACE_ATTACH	16
-#define LINUX_PTRACE_DETACH	17
-#define LINUX_PTRACE_SYSCALL	24
+struct linux_pt_reg {
+    l_ulong    r15;
+    l_ulong    r14;
+    l_ulong    r13;
+    l_ulong    r12;
+    l_ulong    rbp;
+    l_ulong    rbx;
+    l_ulong    r11;
+    l_ulong    r10;
+    l_ulong    r9;
+    l_ulong    r8;
+    l_ulong    rax;
+    l_ulong    rcx;
+    l_ulong    rdx;
+    l_ulong    rsi;
+    l_ulong    rdi;
+    l_ulong    orig_rax;
+    l_ulong    rip;
+    l_ulong    cs;
+    l_ulong    eflags;
+    l_ulong    rsp;
+    l_ulong    ss;
+};
+
+struct linux_pt_regset {
+    l_ulong    r15;
+    l_ulong    r14;
+    l_ulong    r13;
+    l_ulong    r12;
+    l_ulong    rbp;
+    l_ulong    rbx;
+    l_ulong    r11;
+    l_ulong    r10;
+    l_ulong    r9;
+    l_ulong    r8;
+    l_ulong    rax;
+    l_ulong    rcx;
+    l_ulong    rdx;
+    l_ulong    rsi;
+    l_ulong    rdi;
+    l_ulong    orig_rax;
+    l_ulong    rip;
+    l_ulong    cs;
+    l_ulong    eflags;
+    l_ulong    rsp;
+    l_ulong    ss;
+    l_ulong    fs_base;
+    l_ulong    gs_base;
+    l_ulong    ds;
+    l_ulong    es;
+    l_ulong    fs;
+    l_ulong    gs;
+};
+
+
+#define LINUX_PTRACE_TRACEME            0
+#define LINUX_PTRACE_PEEKTEXT           1
+#define LINUX_PTRACE_PEEKDATA           2
+#define LINUX_PTRACE_PEEKUSR            3
+#define LINUX_PTRACE_POKETEXT           4
+#define LINUX_PTRACE_POKEDATA           5
+#define LINUX_PTRACE_POKEUSR            6
+#define LINUX_PTRACE_CONT               7
+#define LINUX_PTRACE_KILL               8
+#define LINUX_PTRACE_SINGLESTEP         9
+#define LINUX_PTRACE_GETREGS            12
+#define LINUX_PTRACE_SETREGS            13
+#define LINUX_PTRACE_GETFPREGS          14
+#define LINUX_PTRACE_SETFPREGS          15
+
+#define LINUX_PTRACE_ATTACH             16
+#define LINUX_PTRACE_DETACH             17
+#define LINUX_PTRACE_SYSCALL            24
 
 #define LINUX_PTRACE_SETOPTIONS         0x4200
 #define LINUX_PTRACE_GETEVENTMSG        0x4201

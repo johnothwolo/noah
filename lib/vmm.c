@@ -283,7 +283,7 @@ retry:
     if (!retried && ret == HV_NO_DEVICE) {
       sleep(0);
       retried = true;
-      printk("retried\n");
+      printk("retrying\n");
       goto retry;
     }
     panic("could not create the vm: error code %x", ret);
